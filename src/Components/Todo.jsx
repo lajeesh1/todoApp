@@ -10,7 +10,7 @@ const Todo = () => {
   const add =()=>{
 const inputText = inputRef.current.value;
 if(inputText === ""){
-  return null;
+  return alert('Add your task');
 }
 const newTodo = {
   id:Date.now(),
@@ -19,9 +19,13 @@ const newTodo = {
 }
 setTodoList((prev)=>[...prev,newTodo]);
 inputRef.current.value=""
-
+inputRef.current.focus();
 
  }
+
+ const deleteTodo = (id) => {
+  setTodoList((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+}
 
 
 
@@ -36,13 +40,13 @@ inputRef.current.value=""
 
         {/* ------input----- */}
         <div className='flex items-center my-7 bg-gray-200 rounded-full' >
-            <input ref={inputRef} className='bg-transparent border-0 outline-none flex-1 h-14 pl-6 placeholder:text-slate-600' type="text" placeholder='Add your task' />
+            <input autoFocus ref={inputRef} className='bg-transparent border-0 outline-none flex-1 h-14 pl-6 placeholder:text-slate-600' type="text" placeholder='Add your task' />
             <button onClick={add} className='border-none bg-orange-600 rounded-full w-32 h-14 text-white text-lg font-medium cursor-pointer'>ADD +</button>
         </div>
           {/* ------todo list----- */}
           <div>
             {todoList.map((item,index)=>{
-              return <TodoList key={index} text={item.text} id={item.id} />
+              return <TodoList deleteTodo={deleteTodo} key={item.id} text={item.text} id={item.id} isComplete={item.isComplete} />
             })}
           </div>
 
